@@ -1,15 +1,109 @@
 body {
-    text-align: center;
-    padding: 0px 40px;
+    background-color: #212529; 
+    color: #fff;
+    overflow-x: hidden;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.climas {
+.page-layout {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 240px minmax(0, 1100px) 240px;
+    justify-content: center;
+    flex: 1;
     gap: 20px;
+    width: 100%;
 }
 
-.clima {
-    background: black;
-    color: white;
+
+.card {
+    background-color: #1a1e24 !important;
+    border: 1px solid #3a424e !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    border-color: #e6c86e !important;
+    box-shadow: 0 4px 15px rgba(230, 200, 110, 0.25) !important;
+}
+
+.marco-imagen-zelda {
+    background: radial-gradient(circle, #252e3d 0%, #0d1117 100%);
+    border-bottom: 2px solid #e6c86e;
+    padding: 15px;
+    position: relative;
+    border-radius: 6px 6px 0 0;
+    overflow: hidden;
+}
+
+.marco-imagen-zelda::before,
+.marco-imagen-zelda::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid #e6c86e;
+}
+
+.marco-imagen-zelda::before {
+    left: 5px;
+    border-left: 2px solid #e6c86e;
+}
+
+.marco-imagen-zelda::after {
+    right: 5px;
+    border-right: 2px solid #e6c86e;
+}
+
+.imagen-item-zelda {
+    height: 140px;
+    width: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid rgba(230, 200, 110, 0.3);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 4px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+    transition: transform 0.3s ease;
+}
+
+.card:hover .imagen-item-zelda {
+    transform: scale(1.05);
+    border-color: #e6c86e;
+}
+
+.aside-sheikah {
+    position: sticky;
+    top: 100px;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    pointer-events: none; 
+}
+
+.aside-left img {
+    max-width: 120%;
+    opacity: 0.7;
+    filter: drop-shadow(0 0 10px rgba(0, 200, 255, 0.4));
+}
+
+.aside-right img {
+    max-width: 120%;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 12px rgba(230, 200, 110, 0.5));
+}
+
+@media (max-width: 1300px) {
+    .page-layout {
+        grid-template-columns: 1fr;
+        padding: 0 15px;
+    }
+    .aside-sheikah {
+        display: none;
+    }
 }
