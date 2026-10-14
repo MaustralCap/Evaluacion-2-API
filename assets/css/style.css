@@ -1,3 +1,5 @@
+
+/* Fondo del cuerpo  */
 body {
     background-color: #212529; 
     color: #fff;
@@ -17,17 +19,18 @@ body {
     width: 100%;
 }
 
-
 .card {
     background-color: #1a1e24 !important;
     border: 1px solid #3a424e !important;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Efecto dorado de la carta  */
 .card:hover {
     border-color: #e6c86e !important;
     box-shadow: 0 4px 15px rgba(230, 200, 110, 0.25) !important;
 }
+
 
 .marco-imagen-zelda {
     background: radial-gradient(circle, #252e3d 0%, #0d1117 100%);
@@ -38,6 +41,7 @@ body {
     overflow: hidden;
 }
 
+/* Embellecer el efecto de las tarjetas  */
 .marco-imagen-zelda::before,
 .marco-imagen-zelda::after {
     content: '';
@@ -70,11 +74,13 @@ body {
     transition: transform 0.3s ease;
 }
 
+/* Efecto dorado dentro de la carta  */
 .card:hover .imagen-item-zelda {
     transform: scale(1.05);
     border-color: #e6c86e;
 }
 
+/* Ajustar la posicion de los paneles laterales  */
 .aside-sheikah {
     position: sticky;
     top: 100px;
@@ -98,6 +104,7 @@ body {
     filter: drop-shadow(0 0 12px rgba(230, 200, 110, 0.5));
 }
 
+/* Ajustar responsivamente la página e imágenes */
 @media (max-width: 1300px) {
     .page-layout {
         grid-template-columns: 1fr;

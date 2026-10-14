@@ -1,8 +1,9 @@
-
+// Dirección de la API
 const URL_API = 'https://api.hyrule-compendium.com/v3/compendium/all';
-
+// Almacén global de datos de la API
 let todoElCompendio = [];
 
+// Traducir los títulos de las categorías + comandos de bootstrap
 const CONFIG_CATEGORIAS = {
     'materials': { titulo: 'Materiales', icono: 'fa-apple-whole', color: 'text-warning' },
     'treasure': { titulo: 'Tesoros y Minerales', icono: 'fa-gem', color: 'text-info' },
@@ -11,21 +12,25 @@ const CONFIG_CATEGORIAS = {
     'creatures': { titulo: 'Criaturas', icono: 'fa-frog', color: 'text-success' }
 };
 
-
+// La página pide los datos de la API y comienza a recolectar con paciencia
 async function cargarCompendio() {
     try {
         const respuesta = await fetch(URL_API);
 
+        // Medida de seguridad por si el servidor original falla
         if (!respuesta.ok) {
             throw new Error(`Error en petición HTTP: ${respuesta.status}`);
         }
 
+        // Transforma la respuesta a formato JSON y lo guardamos en los datos de Javascript
         const json = await respuesta.json();
         todoElCompendio = json.data;
 
+        // Con los datos necesarios ya recolectados, se llamará esta función para poner en pantalla los ítems de la API
         renderizarSeccionesPorCategoria(todoElCompendio);
 
     } catch (error) {
+        //Medida adicional por si falla la API o el internet
         console.error('Error al obtener datos de la API:', error);
         document.getElementById('contenedorCategorias').innerHTML = `
             <div class="alert alert-danger text-center shadow" role="alert">
@@ -35,11 +40,12 @@ async function cargarCompendio() {
     }
 }
 
-
+// Borra el texto de carga, y agrupar los ítems en sus respectivas categorías, por último arma los carruseles
 function renderizarSeccionesPorCategoria(lista) {
     const contenedor = document.getElementById('contenedorCategorias');
-    contenedor.innerHTML = '';
+    contenedor.innerHTML = ''; // Limpia el HTML para próximamente añadir los ítems
 
+    // Si no existe resultado, es decir, no encuentra el ITEM, la lista o el carrusel se reemplazará por el texto de abajo
     if (lista.length === 0) {
         contenedor.innerHTML = `
             <div class="text-center py-5">
@@ -49,6 +55,7 @@ function renderizarSeccionesPorCategoria(lista) {
         return;
     }
 
+    // Agrupar y ordenar los items dentro de la lista usando reduce() en sus respectivas categorías
     const grupos = lista.reduce((acc, item) => {
         const cat = item.category || 'otros';
         if (!acc[cat]) acc[cat] = [];
@@ -56,16 +63,19 @@ function renderizarSeccionesPorCategoria(lista) {
         return acc;
     }, {});
 
+    // Recorrer las categorías agrupadas para construir su sección y carrusel 
     Object.keys(grupos).forEach((claveCategoria) => {
         const config = CONFIG_CATEGORIAS[claveCategoria] || { titulo: claveCategoria, icono: 'fa-box', color: 'text-light' };
         const items = grupos[claveCategoria];        
         const carouselId = `carrusel-${claveCategoria}`;
 
+        // Slice para tener solo 3 tarjetas por slide de carrusel gracias al índice de la lista
         const gruposDeTres = [];
         for (let i = 0; i < items.length; i += 3) {
             gruposDeTres.push(items.slice(i, i + 3));
         }
 
+        // Construcción del HTML en bloques armando los carruseles, con plantillas de texto (Es decir las comillas invertidas)
         const seccionHTML = `
             <div class="mb-5 bg-secondary bg-opacity-10 p-4 rounded-3 border border-secondary">
                 <h3 class="h4 border-bottom border-secondary pb-2 mb-4 d-flex align-items-center gap-2">
@@ -115,13 +125,16 @@ function renderizarSeccionesPorCategoria(lista) {
             </div>
         `;
 
+        // Se añade todo el HTML costruido para generar la página web
         contenedor.innerHTML += seccionHTML;
     });
 }
 
+// Filtro DOM 
 function inicializarBuscador() {
     const buscador = document.getElementById('inputBuscador');
 
+    // Detecta las palabras puestas en el buscador para filtrar los elementos
     buscador.addEventListener('input', (e) => {
         const texto = e.target.value.toLowerCase().trim();
 
